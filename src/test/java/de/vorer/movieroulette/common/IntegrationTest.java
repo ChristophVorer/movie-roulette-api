@@ -1,21 +1,24 @@
 package de.vorer.movieroulette.common;
 
+import de.vorer.movieroulette.user.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.mysql.MySQLContainer;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Testcontainers
-@Transactional
+@ActiveProfiles("test")
+@Import(TestcontainersConfig.class)
 public abstract class IntegrationTest {
 
-    @Container
-    @ServiceConnection
-    protected static final MySQLContainer mysql =
-            new MySQLContainer("mysql:8.4");
+    @Autowired
+    private UserRepository userRepository;
+
+    @BeforeEach
+    void cleanDatabase() {
+        userRepository.deleteAll();
+    }
 }

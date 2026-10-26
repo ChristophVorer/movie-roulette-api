@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -85,8 +86,11 @@ class AuthenticationIntegrationTest extends IntegrationTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.title").value("Validierungsfehler"))
-                .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors").isNotEmpty());
+                .andExpect(jsonPath("$.validationErrors.length()").value(3))
+                .andExpect(
+                        jsonPath("$.validationErrors[*].field",
+                                containsInAnyOrder("username", "email", "password"))
+                );
     }
 
     @Test
@@ -188,7 +192,7 @@ class AuthenticationIntegrationTest extends IntegrationTest {
                         get("/api/test")
                                 .header(
                                         HttpHeaders.AUTHORIZATION,
-                                "Bearer " + accessToken
+                                        "Bearer " + accessToken
                                 )
                 )
                 .andExpect(status().isOk());
@@ -219,7 +223,7 @@ class AuthenticationIntegrationTest extends IntegrationTest {
                         .header(
                                 HttpHeaders.AUTHORIZATION,
                                 "Bearer " + accessToken
-                                ))
+                        ))
                 .andExpect(status().isOk());
     }
 
