@@ -1,5 +1,9 @@
-## Lizenz / Nutzungshinweis
+# Movie Roulette API
 
-Copyright © 2026 Christoph Vorer. Alle Rechte vorbehalten.
+[![CI](https://github.com/ChristophVorer/movie-roulette-api/actions/workflows/ci.yml/badge.svg)](https://github.com/ChristophVorer/movie-roulette-api/actions/workflows/ci.yml)
 
-Dieses Repository ist ausschließlich zur Einsicht und Bewertung öffentlich zugänglich. Eine Vervielfältigung, Veränderung, Verbreitung oder anderweitige Nutzung des Quellcodes ist ohne vorherige schriftliche Genehmigung nicht gestattet.
+Spring Boot REST API for a movie discovery app, featuring JWT authentication and TMDB integration.
+
+## License
+
+All rights reserved. See [LICENSE](LICENSE) for details.
