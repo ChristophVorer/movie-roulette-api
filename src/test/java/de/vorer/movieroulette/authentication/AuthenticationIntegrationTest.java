@@ -86,10 +86,10 @@ class AuthenticationIntegrationTest extends IntegrationTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.title").value("Validierungsfehler"))
-                .andExpect(jsonPath("$.validationErrors.length()").value(3))
+                .andExpect(jsonPath("$.validationErrors.length()").value(4))
                 .andExpect(
                         jsonPath("$.validationErrors[*].field",
-                                containsInAnyOrder("username", "email", "password"))
+                                containsInAnyOrder("username", "email", "password", "password"))
                 );
     }
 
