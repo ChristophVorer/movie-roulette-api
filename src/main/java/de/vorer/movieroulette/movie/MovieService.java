@@ -9,6 +9,7 @@ import de.vorer.movieroulette.integration.tmdb.dto.TmdbMovieListResponse;
 import de.vorer.movieroulette.integration.tmdb.dto.TmdbMovieResponse;
 import de.vorer.movieroulette.movie.dto.MoviePageResponse;
 import de.vorer.movieroulette.movie.dto.MovieResponse;
+import de.vorer.movieroulette.movie.exception.MovieNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class MovieService {
     }
 
     public MovieResponse getMovieById(long movieId) {
-        TmdbMovieResponse tmdbMovie = tmdbClient.getMovieById(movieId);
+        TmdbMovieResponse tmdbMovie = tmdbClient.getMovieById(movieId)
+                .orElseThrow(() -> new MovieNotFoundException(movieId));
 
         return new MovieResponse(
                 tmdbMovie.id(),

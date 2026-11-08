@@ -29,6 +29,14 @@ public class MovieController {
             @ApiResponse(responseCode = "200", description = "Movie found"),
             @ApiResponse(responseCode = "401", description = "Missing or invalid access token", content = @Content),
             @ApiResponse(
+                    responseCode = "404",
+                    description = "No movie with this id exists",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
+            @ApiResponse(
                     responseCode = "502",
                     description = "TMDB failed or is unreachable",
                     content = @Content(

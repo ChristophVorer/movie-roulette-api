@@ -3,6 +3,7 @@ package de.vorer.movieroulette.common;
 import de.vorer.movieroulette.authentication.exceptions.InvalidCredentialsException;
 import de.vorer.movieroulette.common.dto.ValidationError;
 import de.vorer.movieroulette.integration.tmdb.exception.TmdbException;
+import de.vorer.movieroulette.movie.exception.MovieNotFoundException;
 import de.vorer.movieroulette.user.exception.EmailAlreadyExistsException;
 import de.vorer.movieroulette.user.exception.UsernameAlreadyExistsException;
 import jakarta.annotation.Nullable;
@@ -121,6 +122,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setTitle("Validierungsfehler");
         problem.setDetail(detail);
         problem.setProperty("validationErrors", validationErrors);
+
+        return problem;
+    }
+
+    @ExceptionHandler(MovieNotFoundException.class)
+    public ProblemDetail handleMovieNotFound(MovieNotFoundException exception) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problem.setTitle("Film nicht gefunden");
+        problem.setDetail(exception.getMessage());
 
         return problem;
     }
