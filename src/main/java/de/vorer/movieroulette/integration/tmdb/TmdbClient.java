@@ -5,9 +5,12 @@ import de.vorer.movieroulette.integration.tmdb.dto.TmdbMovieListResponse;
 import de.vorer.movieroulette.integration.tmdb.dto.TmdbMovieResponse;
 import de.vorer.movieroulette.integration.tmdb.exception.TmdbException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
+
+import java.util.Optional;
 
 @Component
 public class TmdbClient {
@@ -18,17 +21,21 @@ public class TmdbClient {
         this.restClient = tmdbRestClient;
     }
 
-    public TmdbMovieResponse getMovieById(long movieId) {
+    public Optional<TmdbMovieResponse> getMovieById(long movieId) {
         try {
-            return restClient
-                    .get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/movie/{movieId}")
-                            .queryParam("language", "de-DE")
-                            .build(movieId)
-                    )
-                    .retrieve()
-                    .body(TmdbMovieResponse.class);
+            return Optional.ofNullable(
+                    restClient
+                            .get()
+                            .uri(uriBuilder -> uriBuilder
+                                    .path("/movie/{movieId}")
+                                    .queryParam("language", "de-DE")
+                                    .build(movieId)
+                            )
+                            .retrieve()
+                            .body(TmdbMovieResponse.class)
+            );
+        } catch (HttpClientErrorException.NotFound exception) {
+            return Optional.empty();
         } catch (HttpStatusCodeException exception) {
             throw mapHttpException(exception);
         } catch (RestClientException exception) {

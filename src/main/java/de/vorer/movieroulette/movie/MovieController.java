@@ -11,11 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.ProblemDetail;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Movies", description = "Movie data provided by TMDB")
-@Validated
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
@@ -30,6 +28,14 @@ public class MovieController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Movie found"),
             @ApiResponse(responseCode = "401", description = "Missing or invalid access token", content = @Content),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No movie with this id exists",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class)
+                    )
+            ),
             @ApiResponse(
                     responseCode = "502",
                     description = "TMDB failed or is unreachable",
