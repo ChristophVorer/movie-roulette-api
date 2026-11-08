@@ -3,6 +3,7 @@ package de.vorer.movieroulette.authentication.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
@@ -15,9 +16,16 @@ public record RegisterRequest(
         @Email(message = "Die E-Mail-Adresse ist ungültig.")
         String email,
 
-        @Schema(description = "At least 8 characters", example = "MeinSicheresPasswort123!")
+        @Schema(
+                description = "8 to 64 characters, with upper and lower case letters, a digit and a special character",
+                example = "MeinSicheresPasswort123!"
+        )
         @NotBlank(message = "Das Passwort darf nicht leer sein.")
-        @Size(min = 8, message = "Das Passwort muss mindestens 8 Zeichen lang sein.")
+        @Size(min = 8, max = 64, message = "Das Passwort muss zwischen 8 und 64 Zeichen lang sein.")
+        @Pattern(
+                regexp = "^(?=.*\\p{Ll})(?=.*\\p{Lu})(?=.*\\d)(?=.*[^\\p{L}\\d\\s]).*$",
+                message = "Das Passwort muss Groß- und Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten."
+        )
         String password
 ) {
 }
