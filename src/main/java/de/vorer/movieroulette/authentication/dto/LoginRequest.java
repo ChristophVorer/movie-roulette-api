@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 
 public record LoginRequest(
         @Schema(example = "christoph@example.com")
-        @NotBlank(message = "Es wurde kein Benutzername übertragen")
+        @NotBlank(message = "Die E-Mail-Adresse darf nicht leer sein.")
         String email,
 
         @Schema(example = "MeinSicheresPasswort123!")
-        @NotBlank(message = "Es wurde kein Passwort übertragen")
+        @NotBlank(message = "Das Passwort darf nicht leer sein.")
         String password
 ) {
 }
