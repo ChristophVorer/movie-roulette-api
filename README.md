@@ -46,6 +46,7 @@ Example error response for invalid input:
 - **Java 25**, **Spring Boot 4** (Web MVC, Security, OAuth2 Resource Server, Data JPA, Validation)
 - **MySQL 8.4** with **Flyway** migrations
 - **Spring `RestClient`** for the TMDB integration, **Caffeine** for caching
+- **springdoc-openapi** for OpenAPI documentation and Swagger UI
 - **JUnit 5**, **Spring Boot Test**, **Testcontainers**
 - **Gradle**, **Docker Compose**, **GitHub Actions**, **Dependabot**
 
@@ -68,6 +69,9 @@ cp .env.example .env   # then add your TMDB access token
 
 Spring Boot's Docker Compose support starts the MySQL container from `compose.yaml` automatically. Flyway applies all
 migrations on startup, and the API is available at `http://localhost:8080`.
+
+Interactive API documentation is available at `http://localhost:8080/swagger-ui.html`. Log in via the authentication
+endpoint, then use **Authorize** to add the access token for all other requests.
 
 ### Run tests
 
@@ -163,7 +167,6 @@ date.
 - Random movie suggestions by genre
 - Refresh tokens
 - Load the JWT signing key from configuration
-- OpenAPI documentation
 
 ## License
 
