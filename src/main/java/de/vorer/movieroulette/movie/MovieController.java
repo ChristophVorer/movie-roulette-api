@@ -11,11 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.ProblemDetail;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Movies", description = "Movie data provided by TMDB")
-@Validated
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
